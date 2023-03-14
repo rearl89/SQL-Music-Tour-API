@@ -1,7 +1,7 @@
 // DEPENDENCIES
 const express = require('express')
 const app = express()
-const { Sequelize } = require('sequelize')
+require('dotenv').config()
 
 // CONFIGURATION / MIDDLEWARE
 require('dotenv').config()

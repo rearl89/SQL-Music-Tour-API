@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 const {
   Model
-} = require('sequelize');
+} = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {
     /**
@@ -9,8 +9,20 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
+    static associate({ MeetGreet, SetTime, Stage, StageEvent }) {
+      Event.hasMany(MeetGreet, {
+        foreignKey: "event_id",
+        as: "meet_greets"
+      })
+      Event.hasMany(SetTime, {
+        foreignKey: "event_id",
+        as: "set_times"
+      })
+      Event.belongsToMany(Stage, {
+        foreignKey: "event_id",
+        as: "stages",
+        through: StageEvent
+      })
     }
   }
   Event.init({
@@ -34,12 +46,12 @@ module.exports = (sequelize, DataTypes) => {
     end_time: {
       type: DataTypes.DATE,
       allowNull: false
-    },
+    }
   }, {
     sequelize,
     modelName: 'Event',
     tableName: 'events',
     timestamps: false
-  });
-  return Event;
-};
+  })
+  return Event
+}

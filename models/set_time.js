@@ -1,34 +1,45 @@
-'use strict';
+'use strict'
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Set_time extends Model {
+  class SetTime extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
+    static associate({ Band, Event, Stage }) {
+        SetTime.belongsTo(Band, {
+          foreignKey: "band_id",
+          as: "band"
+        })
+        SetTime.belongsTo(Event, {
+          foreignKey: "event_id",
+          as: "event"
+        })
+        SetTime.belongsTo(Stage, {
+          foreignKey: "stage_id",
+          as: "stage"
+        })
     }
-  }
-  Set_time.init({
+  };
+  SetTime.init({
     set_time_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER, 
       primaryKey: true,
       autoIncrement: true
     },
     event_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.SMALLINT,
       allowNull: false
     },
-    stage_id:{
-      type: DataTypes.INTEGER,
+    stage_id: {
+      type: DataTypes.SMALLINT,
       allowNull: false
     },
     band_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.SMALLINT,
       allowNull: false
     },
     start_time: {
@@ -38,12 +49,12 @@ module.exports = (sequelize, DataTypes) => {
     end_time: {
       type: DataTypes.DATE,
       allowNull: false
-    }
+    },
   }, {
     sequelize,
-    modelName: 'Set_time',
-    tableName: 'set_time',
-    timestamp: false
-  });
-  return Set_time;
-};
+    modelName: 'SetTime',
+    tableName: 'set_times',
+    timestamps: false
+  })
+  return SetTime
+}
